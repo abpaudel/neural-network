@@ -30,7 +30,7 @@ def train_one_epoch(network, feature, target, loss_func, lr):
 def evaluate(network, feature, target):
     correct = []
     for x, y_true in zip(feature, target):
-        out = x.reshape(1,-1)
+        out = x
         for layer in network:
             out = layer.forward(out)
         correct.append(out.argmax()==y_true.argmax())
