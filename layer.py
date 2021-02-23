@@ -71,14 +71,15 @@ class SoftmaxLayer(Layer):
         return f'SoftmaxLayer({self.in_size})'
 
 class FlattenLayer(Layer):
-    def __init__(self, in_shape):
-        self.in_shape = in_shape
+    def __init__(self):
+        self.in_shape = None
 
     def forward(self, inp):
+        self.in_shape = inp.shape
         return np.reshape(inp, (1, -1))
     
     def backward(self, delta, lr):
         return np.reshape(delta, self.in_shape)
 
     def __repr__(self):
-        return f'FlattenLayer({self.in_shape})'
+        return f'FlattenLayer()'
