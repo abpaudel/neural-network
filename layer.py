@@ -31,7 +31,7 @@ class DenseLayer(Layer):
         in_delta = np.dot(delta, self.w.T)
         dw = np.dot(self.inp.T, delta)
         self.w -= lr * dw
-        self.b -= lr * delta
+        self.b -= lr * delta.sum(axis=0, keepdims=True)
         return in_delta
     
     def __repr__(self):
@@ -56,9 +56,9 @@ class SoftmaxLayer(Layer):
         self.in_size = in_size
     
     def forward(self, inp):
-        inp = inp - np.max(inp)
+        inp = inp - inp.max(axis=1, keepdims=True)
         exp = np.exp(inp)
-        self.out = exp / np.sum(exp)
+        self.out = exp / exp.sum(axis=1, keepdims=True)
         return self.out
     
     def backward(self, delta, lr, ce_loss=True):
